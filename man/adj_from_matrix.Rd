@@ -29,16 +29,16 @@ silently and then sets the corresponding attribute to \code{"error"}.}
 \item{...}{Ignored.}
 }
 \value{
-\code{from_matrix()} returns an \code{adj} list; \code{as.matrix()} returns a matrix.
+\code{adj_from_matrix()} returns an \code{adj} list; \code{as.matrix()} returns a matrix.
 }
 \description{
 Adjacency lists can be converted to adjacency matrices and vice versa without
 loss.
 }
 \examples{
-from_matrix(1 - diag(3))
+adj_from_matrix(1 - diag(3))
 
 a = adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
 mat = as.matrix(a)
-all(a == from_matrix(mat, duplicates = "allow")) # TRUE
+all(a == adj_from_matrix(mat, duplicates = "allow")) # TRUE
 }

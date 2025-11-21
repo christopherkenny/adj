@@ -7,14 +7,14 @@
 #' @inheritParams adj
 #' @param ... Ignored.
 #'
-#' @returns `from_matrix()` returns an `adj` list; `as.matrix()` returns a matrix.
+#' @returns `adj_from_matrix()` returns an `adj` list; `as.matrix()` returns a matrix.
 #'
 #' @examples
-#' from_matrix(1 - diag(3))
+#' adj_from_matrix(1 - diag(3))
 #'
 #' a = adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
 #' mat = as.matrix(a)
-#' all(a == from_matrix(mat, duplicates = "allow")) # TRUE
+#' all(a == adj_from_matrix(mat, duplicates = "allow")) # TRUE
 #' @export
 adj_from_matrix <- function(
     x,
