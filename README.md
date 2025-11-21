@@ -8,7 +8,11 @@
 [![R-CMD-check](https://github.com/christopherkenny/adj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/christopherkenny/adj/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of adj is to …
+`adj` provides a lightweight adjacency list class for R, built on the
+[vctrs](https://vctrs.r-lib.org/) package. This allows for pretty
+printing along with several validation checks. The adjacency lists are
+0-indexed, to allow them to work nicely with
+[`redist`](https://alarm-redist.org/redist/).
 
 ## Installation
 
@@ -18,4 +22,43 @@ You can install the development version of adj from
 ``` r
 # install.packages("pak")
 pak::pak("christopherkenny/adj")
+```
+
+## Examples
+
+`adj` comes loaded with example data for the seven bridges of
+Königsberg.
+
+``` r
+library(adj)
+data("konigsberg")
+konigsberg
+#>   area     bridge_to
+#> 1    A B, B, C, C, D
+#> 2    B       A, A, D
+#> 3    C       A, A, D
+#> 4    D       A, B, C
+```
+
+We can build an adjacency graph using the unique identifiers of each
+area.
+
+``` r
+adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
+#> <adj[4]>
+#> [1] {2, 2, 3, …} {1, 1, 4}    {1, 1, 4}    {1, 2, 3}
+```
+
+Alternatively, we have integers and avoid using identifiers. Here, by
+not specifying `duplicates`, we will get the default behavior of
+warning:
+
+``` r
+adj_int <- lapply(konigsberg$bridge_to, function(x) match(x, LETTERS))
+
+adj(adj_int)
+#> Warning: Duplicate neighbors found in adjacency list.
+#> ℹ Found duplicates at nodes 1, 2, and 3.
+#> <adj[4]>
+#> [1] {2, 2, 3, …} {1, 1, 4}    {1, 1, 4}    {1, 2, 3}
 ```
