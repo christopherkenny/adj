@@ -4,6 +4,11 @@ vec_proxy_equal.adj <- function(x, ...) {
 }
 
 #' @export
-sort.adj <- function(x, ...) {
-    cli::cli_abort("{.fn sort} is not supported for adjacency lists.")
+vec_proxy_compare.adj <- function(x, ...) {
+    cli::cli_abort("Comparisons are not supported for adjacency lists.")
 }
+#' @export
+vec_proxy_order.adj <- function(x, ...) {
+    cli::cli_abort("Comparisons are not supported for adjacency lists.")
+}
+
