@@ -29,3 +29,4 @@ Language: en-US
 Encoding: UTF-8
 Config/build/compilation-database: true
 Config/testthat/edition: 3
+URL: http://christophertkenny.com/adj/

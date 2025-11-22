@@ -9,3 +9,6 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^tests/bench\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
