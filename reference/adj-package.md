@@ -6,6 +6,12 @@ lists. Adjacency lists can be easily converted to zero-indexed lists,
 which allows for easy passing of objects to low-level languages for
 processing.
 
+## See also
+
+Useful links:
+
+- <http://christophertkenny.com/adj/>
+
 ## Author
 
 **Maintainer**: Christopher T. Kenny <ctkenny@proton.me>
