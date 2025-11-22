@@ -1,4 +1,5 @@
 url: http://christophertkenny.com/adj/
 template:
   bootstrap: 5
-
+  bootswatch: journal
+  bg: light
