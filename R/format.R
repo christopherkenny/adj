@@ -1,11 +1,11 @@
 #' @export
 vec_ptype_abbr.adj <- function(x, ...) {
-    "adj"
+    "adj" # nocov
 }
 
 #' @export
 vec_ptype_full.adj <- function(x, ...) {
-    "adj"
+    "adj" # nocov
 }
 
 #' Format and print methods for adjacency lists
@@ -28,10 +28,6 @@ format.adj <- function(x, n = 3, ...) {
         return(invisible(NULL))
     }
     vapply(x, adj_preview, character(1), n_max = n)
-}
-
-adj_size <- function(x) {
-    lengths(x)
 }
 
 adj_preview <- function(x, n_max = 3) {

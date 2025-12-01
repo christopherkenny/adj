@@ -11,13 +11,13 @@
 #' @export
 #' @export vec_cast.adj
 vec_cast.adj <- function(x, to, ...) {
-    UseMethod("vec_cast.adj")
+    UseMethod("vec_cast.adj") # nocov
 }
 
 #' @method vec_cast.adj default
 #' @export
 vec_cast.adj.default <- function(x, to, ...) {
-    vec_default_cast(vec_data(x), to, ...)
+    vec_default_cast(vec_data(x), to, ...) # nocov
 }
 
 #' @method vec_cast.adj adj

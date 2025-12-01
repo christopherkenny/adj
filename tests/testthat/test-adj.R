@@ -33,3 +33,8 @@ test_that("koningsberg adj list works", {
     expect_true(is_adj(a))
     expect_identical(adj_to_list(a, ids = konigsberg$area), konigsberg$bridge_to)
 })
+
+test_that("adj fails on invalid inputs", {
+    expect_error(adj(list(2, "A")), 'list of integer vectors')
+    expect_error(adj(list(2, 3)), 'Out-of-bounds')
+})
