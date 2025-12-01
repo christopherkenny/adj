@@ -20,14 +20,8 @@
 #' @param ids A vector of unique node identifiers. Each provided vector in `...`
 #'   will be matched to these identifiers. If `NULL`, the identifiers are taken
 #'   to be 1-indexed integers.
-#' @param duplicates Controls handling of duplicate neighbors. The value
-#'   `"warn"` warns the user; `"error"` throws an error; `"allow"` allows
-#'   duplicates, and `"remove"` removes duplicates silently and then sets the
-#'   corresponding attribute to `"error"`.
-#' @param self_loops Controls handling of self-loops (nodes that are adjacent
-#'   to themselves). The value `"warn"` warns the user; `"error"` throws an
-#'   error; `"allow"` allows self-loops, and `"remove"` removes self-loops
-#'   silently and then sets the corresponding attribute to `"error"`.
+#' @param duplicates `r roxy_duplicates()`
+#' @param self_loops `r roxy_self_loops()`
 #'
 #' @returns An `adj` list
 #'
