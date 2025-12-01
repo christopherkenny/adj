@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/alarm-redist/adj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/alarm-redist/adj/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/alarm-redist/adj/graph/badge.svg)](https://app.codecov.io/gh/alarm-redist/adj)
 <!-- badges: end -->
 
 `adj` provides a lightweight adjacency list class for R, built on the
