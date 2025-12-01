@@ -21,11 +21,13 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 `adj` provides a lightweight adjacency list class for R, built on the [vctrs](https://vctrs.r-lib.org/) package.
-This allows for pretty printing along with several validation checks.
+Adjacency lists are validated on creation, automatically reindex when subsetted or indexed, and support pretty-printing.
+Lists can be easily converted to a zero-index basis, which allows for easy passing of objects to low-level languages for processing.
+Creation of adjacency lists from shapefiles is supported through an optional dependency on `geos`.
 
 ## Installation
 
-You can install the development version of adj from [GitHub](https://github.com/) with:
+You can install the development version of `adj` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
@@ -46,14 +48,35 @@ konigsberg
 We can build an adjacency graph using the unique identifiers of each area.
 
 ```{r}
-adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
+a = adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
+print(a, n = 5)
 ```
 
 Alternatively, we can create an adjacency list from a list of integers.
 Here, we set `duplicates = "remove"` to remove any duplicate edges.
 
 ```{r}
-adj_int <- lapply(konigsberg$bridge_to, function(x) match(x, LETTERS))
+adj(c(2, 3, 3), c(1, 3), c(1, 1, 2), duplicates = "remove")
+```
 
-adj(adj_int, duplicates = "remove")
+Once created, adjacency lists can be subsetted using standard R indexing, and the internal indices will be automatically updated.
+
+```{r}
+a[1:2]
+rev(a)
+```
+
+Quotient graphs can be created from adjacency lists and a grouping vector.
+Here, we create a quotient graph by grouping the two islands together.
+
+```{r}
+adj_quotient(a, c("island", "north", "south", "island"))
+```
+
+Finally, adjacency lists can be converted to a matrix or zero-indexed.
+
+```{r}
+as.matrix(a)
+
+adj_zero_index(a)
 ```
