@@ -53,11 +53,11 @@
 </div>
 <!-- badges: start -->
 
-<p><code>adj</code> provides a lightweight adjacency list class for R, built on the <a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a> package. This allows for pretty printing along with several validation checks.</p>
+<p><code>adj</code> provides a lightweight adjacency list class for R, built on the <a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a> package. Adjacency lists are validated on creation, automatically reindex when subsetted or indexed, and support pretty-printing. Lists can be easily converted to a zero-index basis, which allows for easy passing of objects to low-level languages for processing. Creation of adjacency lists from shapefiles is supported through an optional dependency on <code>geos</code>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of adj from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of <code>adj</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"alarm-redist/adj"</span><span class="op">)</span></span></code></pre></div>
@@ -71,23 +71,56 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"konigsberg"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">konigsberg</span></span>
-<span><span class="co">#&gt;   area     bridge_to</span></span>
-<span><span class="co">#&gt; 1    A B, B, C, C, D</span></span>
-<span><span class="co">#&gt; 2    B       A, A, D</span></span>
-<span><span class="co">#&gt; 3    C       A, A, D</span></span>
-<span><span class="co">#&gt; 4    D       A, B, C</span></span></code></pre></div>
+<span><span class="co">#&gt;   area     bridge_to       x      y</span></span>
+<span><span class="co">#&gt; 1    A B, B, C, C, D 20.5100 54.706</span></span>
+<span><span class="co">#&gt; 2    B       A, A, D 20.5115 54.709</span></span>
+<span><span class="co">#&gt; 3    C       A, A, D 20.5110 54.703</span></span>
+<span><span class="co">#&gt; 4    D       A, B, C 20.5170 54.705</span></span></code></pre></div>
 <p>We can build an adjacency graph using the unique identifiers of each area.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/adj.html">adj</a></span><span class="op">(</span><span class="va">konigsberg</span><span class="op">$</span><span class="va">bridge_to</span>, ids <span class="op">=</span> <span class="va">konigsberg</span><span class="op">$</span><span class="va">area</span>, duplicates <span class="op">=</span> <span class="st">"allow"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">=</span> <span class="fu"><a href="reference/adj.html">adj</a></span><span class="op">(</span><span class="va">konigsberg</span><span class="op">$</span><span class="va">bridge_to</span>, ids <span class="op">=</span> <span class="va">konigsberg</span><span class="op">$</span><span class="va">area</span>, duplicates <span class="op">=</span> <span class="st">"allow"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">a</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;adj[4]&gt;</span></span>
-<span><span class="co">#&gt; [1] {2, 2, 3, …} {1, 1, 4}    {1, 1, 4}    {1, 2, 3}</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] {2, 2, 3, 3, 4} {1, 1, 4}       {1, 1, 4}       {1, 2, 3}</span></span></code></pre></div>
 <p>Alternatively, we can create an adjacency list from a list of integers. Here, we set <code>duplicates = "remove"</code> to remove any duplicate edges.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">adj_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">konigsberg</span><span class="op">$</span><span class="va">bridge_to</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">LETTERS</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/adj.html">adj</a></span><span class="op">(</span><span class="va">adj_int</span>, duplicates <span class="op">=</span> <span class="st">"remove"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/adj.html">adj</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, duplicates <span class="op">=</span> <span class="st">"remove"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;adj[3]&gt;</span></span>
+<span><span class="co">#&gt; [1] {2, 3} {1, 3} {1, 2}</span></span></code></pre></div>
+<p>Once created, adjacency lists can be subsetted using standard R indexing, and the internal indices will be automatically updated.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="co">#&gt; &lt;adj[2]&gt;</span></span>
+<span><span class="co">#&gt; [1] {2, 2} {1, 1}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;adj[4]&gt;</span></span>
-<span><span class="co">#&gt; [1] {2, 3, 4} {1, 4}    {1, 4}    {1, 2, 3}</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] {4, 3, 2}    {4, 4, 1}    {4, 4, 1}    {3, 3, 2, …}</span></span></code></pre></div>
+<p>Quotient graphs can be created from adjacency lists and a grouping vector. Here, we create a quotient graph by grouping the two islands together.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/adj_quotient.html">adj_quotient</a></span><span class="op">(</span><span class="va">a</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"island"</span>, <span class="st">"north"</span>, <span class="st">"south"</span>, <span class="st">"island"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;adj[3]&gt;</span></span>
+<span><span class="co">#&gt; [1] {2, 3} {1}    {1}</span></span></code></pre></div>
+<p>Finally, adjacency lists can be converted to a matrix or zero-indexed.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
+<span><span class="co">#&gt; [1,]    0    2    2    1</span></span>
+<span><span class="co">#&gt; [2,]    2    0    0    1</span></span>
+<span><span class="co">#&gt; [3,]    2    0    0    1</span></span>
+<span><span class="co">#&gt; [4,]    1    1    1    0</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/adj_zero_index.html">adj_zero_index</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] 1 1 2 2 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [1] 0 0 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt; [1] 0 0 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[4]]</span></span>
+<span><span class="co">#&gt; [1] 0 1 2</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
