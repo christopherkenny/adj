@@ -70,3 +70,4 @@ bench::mark(
     redist_coarsen = redist::redist.coarsen.adjacency(a0, g1000),
     check = FALSE
 )
+
