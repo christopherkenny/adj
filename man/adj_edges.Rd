@@ -6,26 +6,12 @@
 \alias{adj_subtract_edges}
 \title{Add and subtract edges from an adjacency list}
 \usage{
-adj_add_edges(
-  adj,
-  v1,
-  v2,
-  ids = NULL,
-  duplicates = c("warn", "error", "allow", "remove"),
-  self_loops = c("warn", "error", "allow", "remove")
-)
+adj_add_edges(x, v1, v2, ids = NULL)
 
-adj_subtract_edges(
-  adj,
-  v1,
-  v2,
-  ids = NULL,
-  duplicates = c("warn", "error", "allow", "remove"),
-  self_loops = c("warn", "error", "allow", "remove")
-)
+adj_subtract_edges(x, v1, v2, ids = NULL)
 }
 \arguments{
-\item{adj}{An \code{adj} list or object coercible to an \code{adj} list}
+\item{x}{An \code{adj} list or object coercible to an \code{adj} list}
 
 \item{v1}{vector of vertex identifiers for the first vertex. Can be an
 integer index or a value to look up in \code{ids}, if that argument is provided.
@@ -38,18 +24,8 @@ If more than one identifier is present, connects each to corresponding
 entry in \code{v1}.}
 
 \item{ids}{A vector of unique node identifiers. Each provided vector in \code{v1}
-and \code{v2} will be matched to these identifiers. If \code{NULL}, the identifiers \
+and \code{v2} will be matched to these identifiers. If \code{NULL}, the identifiers
 are taken to be 1-indexed integers.}
-
-\item{duplicates}{Controls handling of duplicate neighbors. The value
-\code{"warn"} warns the user; \code{"error"} throws an error; \code{"allow"} allows
-duplicates, and \code{"remove"} removes duplicates silently and then sets the
-corresponding attribute to \code{"error"}.}
-
-\item{self_loops}{Controls handling of self-loops (nodes that are adjacent
-to themselves). The value \code{"warn"} warns the user; \code{"error"} throws an
-error; \code{"allow"} allows self-loops, and \code{"remove"} removes self-loops
-silently and then sets the corresponding attribute to \code{"error"}.}
 }
 \value{
 An \code{adj} list

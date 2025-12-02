@@ -10,8 +10,8 @@
 #'    corresponds to the central island of Kneiphof.}
 #'   \item{bridge_to}{A list column, where each entry is a character vector
 #'    listing the areas directly connected by bridges to the area in that row.}
-#'   \item{x} The longitude of the area center, for plotting.
-#'   \item{y} The latitude of the area center, for plotting.
+#'   \item{x}{The longitude of the area center, for plotting.}
+#'   \item{y}{The latitude of the area center, for plotting.}
 #' }
 #'
 #' @references

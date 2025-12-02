@@ -47,10 +47,7 @@ adj <- function(
         x <- x[[1]]
     }
 
-    # match IDs
-    if (!is.null(ids)) {
-        x <- lapply(x, match, table = ids)
-    }
+    x = match_check_ids(x, ids)
 
     # handle types
     ints <- vapply(x, rlang::is_integerish, FALSE)
@@ -81,6 +78,26 @@ adj <- function(
 
     x = validate_adj(new_adj(x, duplicates, self_loops))
     x
+}
+
+match_check_ids <- function(x, ids, check_dups = TRUE) {
+    if (vec_duplicate_any(ids)) {
+        cli::cli_abort("{.arg ids} must contain unique values.", call = parent.frame())
+    }
+    if (!is.null(ids)) {
+        x <- lapply(x, function(nbors) {
+            idxs = match(nbors, table = ids)
+            if (anyNA(idxs)) {
+                cli::cli_abort(c(
+                    "Some neighbor identifiers in {.arg x} do not match any value in {.arg ids}.",
+                    "i" = "Invalid identifiers: {as.character(unique(nbors[is.na(idxs)]))}."
+                ), call = parent.frame())
+            }
+            idxs
+        })
+    } else {
+        x
+    }
 }
 
 new_adj <- function(
