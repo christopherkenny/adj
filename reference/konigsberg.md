@@ -13,7 +13,7 @@ konigsberg
 
 ### `konigsberg`
 
-A data frame with 4 rows and 2 columns:
+A data frame with 4 rows and 4 columns:
 
 - area:
 
@@ -24,6 +24,14 @@ A data frame with 4 rows and 2 columns:
 
   A list column, where each entry is a character vector listing the
   areas directly connected by bridges to the area in that row.
+
+- x:
+
+  The longitude of the area center, for plotting.
+
+- y:
+
+  The latitude of the area center, for plotting.
 
 ## References
 
