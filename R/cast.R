@@ -29,7 +29,7 @@ vec_cast.adj.adj <- function(x, to, ...) {
 #' @method vec_cast.adj list
 #' @export
 vec_cast.adj.list <- function(x, to, ...) {
-    out = new_adj(x)
+    out = new_adj(lapply(x, as.integer))
     validate_adj(out)
     out
 }

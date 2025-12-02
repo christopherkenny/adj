@@ -16,11 +16,11 @@ test_that("basic adj lists work", {
 test_that("validate_adj works", {
     expect_error(validate_adj(5), "list")
     expect_error(
-        validate_adj(structure(list(), duplicates = "allow", self_loops = "bad")),
+        validate_adj(structure(list(c(1L, 1L)), duplicates = "allow", self_loops = "bad")),
         "must be"
     )
     expect_error(
-        validate_adj(structure(list(), duplicates = "bad", self_loops = "allow")),
+        validate_adj(structure(list(c(1L, 1L)), duplicates = "bad", self_loops = "allow")),
         "must be"
     )
     expect_silent(

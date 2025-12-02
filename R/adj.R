@@ -111,7 +111,7 @@ validate_adj <- function(x) {
             "x" = "Found {sort(unique(all_idx[invalid]), na.last=FALSE)}."
         ))
     }
-    if (!is.integer(all_idx)) {
+    if (length(all_idx) > 0 && !is.integer(all_idx)) {
         cli::cli_abort("{.arg x} must be a list of integer vectors.")
     }
 
