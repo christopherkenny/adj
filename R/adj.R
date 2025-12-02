@@ -111,6 +111,9 @@ validate_adj <- function(x) {
             "x" = "Found {sort(unique(all_idx[invalid]), na.last=FALSE)}."
         ))
     }
+    if (!is.integer(all_idx)) {
+        cli::cli_abort("{.arg x} must be a list of integer vectors.")
+    }
 
     # handle duplicates and self-loops
     mode_dups = attr(x, "duplicates")

@@ -8,4 +8,6 @@ test_that("plotting works", {
     expect_silent(plot(a, xy, edges = "s"))
     expect_silent(plot(a, xy, xlab = "Latitude", ylab = "Longitude"))
     expect_silent(plot(a, xy, nodes = FALSE))
+    expect_silent(plot(adj(2, c(1, 3), 2)))
+    expect_error(plot(adj(2, c(1, 3), 2), y = 5), "matrix")
 })

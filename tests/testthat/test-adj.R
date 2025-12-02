@@ -13,6 +13,35 @@ test_that("basic adj lists work", {
     expect_identical(a_manual, adj:::validate_adj(a_manual))
 })
 
+test_that("validate_adj works", {
+    expect_error(validate_adj(5), "list")
+    expect_error(
+        validate_adj(structure(list(), duplicates = "allow", self_loops = "bad")),
+        "must be"
+    )
+    expect_error(
+        validate_adj(structure(list(), duplicates = "bad", self_loops = "allow")),
+        "must be"
+    )
+    expect_silent(
+        validate_adj(structure(
+            list(2L, 1L),
+            class = "adj",
+            duplicates = "error",
+            self_loops = "error"
+        ))
+    )
+    expect_error(
+        validate_adj(structure(
+            list(2.0, 1.0),
+            class = "adj",
+            duplicates = "error",
+            self_loops = "error"
+        )),
+        "integer"
+    )
+})
+
 test_that("invalid adj lists error", {
     expect_warning(
         adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "warn"),
