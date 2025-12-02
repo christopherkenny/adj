@@ -73,8 +73,16 @@ adj_quotient_int <- function(
 #'   in `x`.
 #' @param colors Number of colors to use. If 0 (the default), uses as few colors
 #'   as possible with this greedy algorithm.
+#' @param method Coloring method to use. `"dsatur"` uses the DSatur algorithm
+#'   to try to minimize the number of colors. `"greedy"` traverses nodes in
+#'   decreasing order of degree and may be appropriate when more colors
+#'   are desired.
 #'
 #' @returns An integer vector
+#'
+#' @references
+#' Brélaz, Daniel (1979-04-01). "New methods to color the vertices of a graph".
+#' _Communications of the ACM_. 22 (4): 251–256.
 #'
 #' @examples
 #' a <- adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
@@ -82,7 +90,7 @@ adj_quotient_int <- function(
 #' adj_color(a, colors = 3)
 #' adj_color(a, groups = c("AD", "BC", "BC", "AD"))
 #' @export
-adj_color <- function(x, groups = NULL, colors = 0) {
+adj_color <- function(x, groups = NULL, colors = 0, method = c("dsatur", "greedy")) {
     n = length(x)
     if (is.null(groups)) {
         groups = seq_len(n)
@@ -94,7 +102,7 @@ adj_color <- function(x, groups = NULL, colors = 0) {
     x = adj_quotient_int(x, groups, attr(groups, "n"), "remove", "remove")
 
     if (colors == 0) {
-        used = integer(5)
+        used = integer(2)
     } else {
         if (colors >= n) {
             return(seq_len(n))
@@ -103,12 +111,25 @@ adj_color <- function(x, groups = NULL, colors = 0) {
         used = integer(colors)
     }
 
-    visit_ord = order(lengths(x), decreasing = TRUE)
-    color = integer(n)
-    for (i in visit_ord) {
+    method = match.arg(method)
+    deg_ord = order(lengths(x), decreasing = TRUE)
+    color = integer(length(x))
+    for (i in seq_along(x)) {
+        idx = if (i == 1L || method == "greedy") {
+            deg_ord[i]
+        } else {
+            uncolored = which(color == 0)
+            sat_deg = integer(length(uncolored))
+            for (j in seq_along(uncolored)) {
+                cols = color[x[[uncolored[j]]]]
+                sat_deg[j] = vec_unique_count(cols[cols > 0])
+            }
+            uncolored[which.max(sat_deg)]
+        }
+
         # faster than setdiff(), somehow
         # negative indexing fails when all colors are 0
-        available = which(is.na(match(seq_along(used), color[x[[i]]])))
+        available = which(is.na(match(seq_along(used), color[x[[idx]]])))
         if (length(available) == 0) {
             if (colors > 0) {
                 cli::cli_abort("Not enough colors to color the graph.")
@@ -118,7 +139,7 @@ adj_color <- function(x, groups = NULL, colors = 0) {
             }
         }
         col = available[which.min(used[available])]
-        color[i] = col
+        color[idx] = col
         used[col] = used[col] + 1L
     }
 

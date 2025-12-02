@@ -4,7 +4,7 @@
 \alias{adj_color}
 \title{Find a coloring of an adjacency list}
 \usage{
-adj_color(x, groups = NULL, colors = 0)
+adj_color(x, groups = NULL, colors = 0, method = c("dsatur", "greedy"))
 }
 \arguments{
 \item{x}{An \code{adj} list}
@@ -14,6 +14,11 @@ in \code{x}.}
 
 \item{colors}{Number of colors to use. If 0 (the default), uses as few colors
 as possible with this greedy algorithm.}
+
+\item{method}{Coloring method to use. \code{"dsatur"} uses the DSatur algorithm
+to try to minimize the number of colors. \code{"greedy"} traverses nodes in
+decreasing order of degree and may be appropriate when more colors
+are desired.}
 }
 \value{
 An integer vector
@@ -27,4 +32,8 @@ a <- adj(konigsberg$bridge_to, ids = konigsberg$area, duplicates = "allow")
 adj_color(a)
 adj_color(a, colors = 3)
 adj_color(a, groups = c("AD", "BC", "BC", "AD"))
+}
+\references{
+Brélaz, Daniel (1979-04-01). "New methods to color the vertices of a graph".
+\emph{Communications of the ACM}. 22 (4): 251–256.
 }

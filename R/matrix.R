@@ -48,8 +48,14 @@ adj_from_matrix <- function(
 as.matrix.adj <- function(x, ...) {
     n = length(x)
     out = matrix(0L, nrow = n, ncol = n)
-    for (i in seq_len(n)) {
-        out[i, ] = tabulate(x[[i]], nbins = n)
+    if (attr(x, "duplicates") != "error") {
+        for (i in seq_len(n)) {
+            out[i, ] = tabulate(x[[i]], nbins = n)
+        }
+    } else {
+        for (i in seq_len(n)) {
+            out[i, x[[i]]] = 1L
+        }
     }
     out
 }

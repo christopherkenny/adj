@@ -12,4 +12,5 @@ test_that("adj_from_shp works", {
     expect_equal(a[[2]], c(1, 4))
     expect_equal(a[[3]], c(1, 4))
     expect_equal(a[[4]], c(3, 2))
+    expect_silent(adj_zero_index(a))
 })

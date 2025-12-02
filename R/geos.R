@@ -27,7 +27,7 @@ adj_from_shp <- function(shp) {
         x <- geos::geos_relate(shp[[i]], shp[[nby[[i]]]])
         is_adj <- geos::geos_relate_pattern_match(x, "F***1****") |
             geos::geos_relate_pattern_match(x, "2121**2*2")
-        nby[[i]][is_adj]
+        as.integer(nby[[i]][is_adj])
     })
 
     out = new_adj(out, duplicates = "error", self_loops = "error")
