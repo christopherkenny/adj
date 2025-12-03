@@ -4,5 +4,4 @@ test_that("format works", {
     )
     expect_snapshot(adj())
     expect_null(format(adj()))
-    expect_null(format(adj()))
 })
