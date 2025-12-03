@@ -13,12 +13,12 @@ Source:
 [`DESCRIPTION`](https://github.com/alarm-redist/adj/blob/main/DESCRIPTION)
 
 Kenny C, McCartan C (2025). *adj: Lightweight Adjacency Lists*. R
-package version 0.0.0.9000, <http://alarm-redist.org/adj/>.
+package version 0.0.1, <https://alarm-redist.org/adj/>.
 
     @Manual{,
       title = {adj: Lightweight Adjacency Lists},
       author = {Christopher T. Kenny and Cory McCartan},
       year = {2025},
-      note = {R package version 0.0.0.9000},
-      url = {http://alarm-redist.org/adj/},
+      note = {R package version 0.0.1},
+      url = {https://alarm-redist.org/adj/},
     }
