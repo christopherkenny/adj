@@ -10,7 +10,7 @@ processing.
 
 Useful links:
 
-- <http://alarm-redist.org/adj/>
+- <https://alarm-redist.org/adj/>
 
 - <https://github.com/alarm-redist/adj>
 
